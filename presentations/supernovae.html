@@ -39,6 +39,11 @@
           color: gray;
           font-size: 70%;
       }
+      .citation a {
+          text-decoration: none;
+          color: inherit;
+      }
+      
       figcaption {
           font-size: 80%;
           opacity: 0.8;
@@ -74,7 +79,9 @@
       .section h1 {
           color: white;
       }
-      
+      .clear {
+          clear: both;
+      }
     </style>
   </head>
   <body>
@@ -143,7 +150,14 @@ class: section, center, middle
     </tr>   
 </table>    
 
-<p class='citation'>Mac Low and Klessen 2004; Krumholz and McKee 2005; McKee and Ostriker 2007; Krumholz et al. 2009; Hennebelle and Chabrier 2011; Federrath and Klessen 2012; Padoan et al. 2014; Salim et al. 2015 </p>
+<p class='citation'><a href="http://adsabs.harvard.edu/abs/2004RvMP...76..125M">Mac Low and Klessen 2004</a>; 
+<a href="http://adsabs.harvard.edu/abs/2005ApJ...630..250K">Krumholz and McKee 2005</a>; 
+<a href="http://adsabs.harvard.edu/abs/2007ARA%26A..45..565M">McKee and Ostriker 2007</a>; 
+<a href="http://adsabs.harvard.edu/abs/2009ApJ...699..850K">Krumholz et al. 2009</a>; 
+<a href="http://adsabs.harvard.edu/abs/2011ApJ...743L..29H">Hennebelle and Chabrier 2011</a>; 
+<a href="http://adsabs.harvard.edu/abs/2012ApJ...761..156F">Federrath and Klessen 2012</a>; 
+<a href="http://adsabs.harvard.edu/abs/2014prpl.conf...77P">Padoan et al. 2014</a>; 
+<a href="">Salim et al. 2015</a> </p>
 ---
 
 # Supernovae
@@ -198,7 +212,12 @@ class: section, center, middle
     - Most of the energy in a supernova is in thermal energy
     - This energy is radiated away within 100 kyr. 
     
-.citation[Krumholz and McKee 2005; Federrath et al. 2008; Federrath et al. 2010, Federrath and Klessen 2012, Kainulainen et al. 2013]
+.citation[
+<a href="http://adsabs.harvard.edu/abs/2005ApJ...630..250K">Krumholz and McKee 2005</a>; 
+<a href="http://adsabs.harvard.edu/abs/2008ApJ...688L..79F">Federrath et al. 2008</a>; 
+<a href="http://adsabs.harvard.edu/abs/2010ApJ...713..269F">Federrath et al. 2010</a>; 
+<a href="http://adsabs.harvard.edu/abs/2012ApJ...761..156F">Federrath and Klessen 2012</a>; 
+<a href="http://adsabs.harvard.edu/abs/2013A%26A...553L...8K">Kainulainen et al. 2013</a>;]
 ---
 
 class: section, center, middle
@@ -226,7 +245,7 @@ class: section, center, middle
     - In FLASH they can also generate magnetic outflow jets, and accretion discs &mdash; mimicking early stellar development
     - I further this relationship by using Sink Particles as the basis for supernovae. 
 
-.citation[Fryxell et al. 2000; Federrath et al. 2010; Federrath et al. 2014]
+.citation[<a href="http://adsabs.harvard.edu/abs/2000ApJS..131..273F">Fryxell et al. 2000</a>; <a href="http://adsabs.harvard.edu/abs/2010ApJ...713..269F">Federrath et al. 2010</a>; <a href="http://adsabs.harvard.edu/abs/2014ApJ...790..128F">Federrath et al. 2014</a>]
 ---
 
 # Past Supernova Implementations
@@ -242,7 +261,7 @@ class: section, center, middle
     - Inserts supernovae with consistent physical structure
 - Dynamic, based on ambient conditions surrounding the supernova
 
-.citation[Dubois and Teyssier 2008; Simpson et al. 2015; Bubel 2016]
+.citation[<a href="http://adsabs.harvard.edu/abs/2008ASPC..390..388D">Dubois and Teyssier 2008</a>; <a href="http://adsabs.harvard.edu/abs/2015ApJ...809...69S">Simpson et al. 2015</a>; <a href="http://adsabs.harvard.edu/abs/2016arXiv160406071B">Bubel 2016</a>]
 ---
 
 # The Sedov Solution
@@ -402,7 +421,7 @@ class: section, middle
 
 In order to explore the impact of supernova-driven turbulence we want to insert supernovae at random positions within a simulation box. 
 
-The simulation will be a 250 pc cube with a uniform density of 
+The simulation was a 250 pc cube with a uniform density of 
 5 cm$^{-3}$. 
 - Supernovae are inserted with some time separation such that the average time between supernovae is 180 ± 72 kyr. 
 - The simulation was run twice at resolutions of $128^3$ and $256^3$ cells
@@ -410,12 +429,105 @@ The simulation will be a 250 pc cube with a uniform density of
     - Due to time-constraints the $256^3$ simulation was only run for 10 Myr, while the $128^3$ was run for 40 Myr. 
 
 ---
-.center[
-<video width=480 height=480 controls>
+
+class: center
+
+<video width=600 height=600 controls>
     <source src="../movies/128_density_proj.webm" type="video/webm">
 </video>
+
+---
+
+.left[
+# Analysis
+]
+.right[
+$$
+    s = \ln\frac{\rho}{\langle \rho\rangle}, \quad  \mathcal{M} = \frac{v}{c_s}
+$$
+]
+.clear[
+
+]
+.left[
+<img src="images/dens_pdf_comp.jpg" height="300px"></img>
+]
+
+.right[
+<img src="images/mach_pdf_comp2.jpg" height="300px"></img>
+]
+.clear[
+* Density PDF indicative of a two phase medium
+* Mach PDF shows the turbulence to be transonic
+]
+
+.citation[
+<a href="http://adsabs.harvard.edu/abs/2007ApJ...665..416K"> Kritsuk et al. 2007</a>;
 ]
 ---
+
+.left[
+## Power Spectrum Analysis
+]
+.right[
+$P(k) \propto k^{-1.67}$   
+$E(k) \propto k^{-2.12}$
+]
+.center[
+<img src="images/spectra_comp.jpg" height="500px"></img>
+]
+
+---
+# Temperature Evolution
+
+Since the internal energy and cooling have been included in this simulation, we can also examine the evolution of the temperature within the box
+
+Contributing Factors:
+* Supernovae reach $10^{10}$ K
+* Cooling utilises the original Sutherland-Dopita cooling curve (1993) 
+    * Won't cool below $10^4$ K. 
+* Original ambient temperature is 10 K.
+
+.citation[
+<a href="http://adsabs.harvard.edu/abs/1993ApJS...88..253S">Sutherland & Dopita 1993</a>;
+]
+---
+class: center
+
+<video width=600 height=600 controls>
+    <source src="../movies/128_temp_proj.webm" type="video/webm">
+</video>
+
+---
+
+.center[
+<img src="images/temp_dens_comp_63.jpg" height="280"></img>
+]
+.clear[
+<img src="images/temp_dens_comp_126.jpg" height="280"></img>
+<img src="images/temp_dens_comp_189.jpg" height="280"></img>
+]
+
+
+---
+
+# Future Work
+* Extend the supernova-driven turbulence experiment
+    * Increase the resolution to $512^3$ cells. 
+    * Increase the length of the simulated time period 
+    * Improve the lower bound on the cooling
+* Uses of the supernova implementation
+    * Enable sink particle outflows and formation to examine the effect of introducing supernova-driven turbulence on the SFR and SFE, and evolution of the ISM. 
+* Model improvements
+    * Momentum insertion is unstable
+    * Dynamically calculate energy and mass injection by supernova based on SP mass and IMF.
+    
+---
+
+class: center, middle
+
+# Thank you 
+
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
