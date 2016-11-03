@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Supernova-Driven Turbulence</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Exploring Supernova Driven Turbulence Through Implementing Realistic Supernovae
+
+*Jacob Buete*
+
+_Supervised by Dr. Christoph Federrath_ 
+
+---
+
+# Overview of the Talk
+
+1. Why should we explore supernova-driven turbulence?
+    * Turbulence affects the Star Formation Rate, and evolution of the interstellar medium
+    * Supernovae are thought to be a major source of compressive turbulence 
+2. Implementing a Realistic Supernova
+    * Three phases of supernova evolution: free expansion, Sedov phase, snowplow
+    * Sedov phase based on the Sedov Blast wave solution
+3. Generating Supernova-driven turbulence in simulations
+    * "Supernova-Driven Box"
+    
+
+---
+
+# Introduction to Turbulence
+
+$$ r_s = \eta_s \left( \frac{Et^2}{\rho_0} \right)^\frac{1}{5}$$
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&amp;delayStartupUntil=configured"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+      // Setup MathJax
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+      MathJax.Hub.Queue(function() {
+          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+              return(elem.SourceElement());
+          }).parent().addClass('has-jax');
+      });
+      MathJax.Hub.Configured();
+    </script>
+    
+  </body>
+</html>
