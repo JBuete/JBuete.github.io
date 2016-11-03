@@ -13,7 +13,67 @@
         font-family: 'Yanone Kaffeesatz';
         font-weight: normal;
       }
+      li {
+          padding-top: 3pt;
+          padding-bottom: 5pt;
+      }
+      li li {
+          padding-bottom: 3pt;
+      }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      
+      .footnote {
+          opacity: 0.5;
+          -moz-opacity: 0.5;
+                    filter:alpha(opacity=50);
+      }
+      .right_img {
+          float: right;
+          width: 1pt;
+          height: 1pt;
+      }
+      .citation {
+          opacity: 0.7;
+          -moz-opacity: 0.7;
+                    filter:alpha(opacity=70);
+          color: gray;
+          font-size: 70%;
+      }
+      figcaption {
+          font-size: 80%;
+          opacity: 0.8;
+          -moz-opacity: 0.8;
+                    filter:alpha(opacity=80);
+      }
+      .left { float: left; width: 45%; }
+      .right { 
+          float: right; 
+          width: 45%; 
+          text-align: left;
+      }
+      .right li {
+          text-align: left;
+      }
+      
+      .section {
+          /* Safari 4-5, Chrome 1-9 */
+            background: -webkit-gradient(linear, left top, right top, from(#FFFFFF), to(#2F2727));
+
+            /* Safari 5.1, Chrome 10+ */
+            background: -webkit-linear-gradient(left, #2F2727, #FFFFFF);
+
+            /* Firefox 3.6+ */
+            background: -moz-linear-gradient(left, #2F2727, #FFFFFF);
+
+            /* IE 10 */
+            background: -ms-linear-gradient(left, #2F2727, #FFFFFF);
+
+            /* Opera 11.10+ */
+            background: -o-linear-gradient(left, #2F2727, #FFFFFF);      
+      }
+      .section h1 {
+          color: white;
+      }
     </style>
   </head>
   <body>
@@ -23,7 +83,7 @@ class: center, middle
 
 # Exploring Supernova Driven Turbulence Through Implementing Realistic Supernovae
 
-*Jacob Buete*
+__Jacob Buete__
 
 _Supervised by Dr. Christoph Federrath_ 
 
@@ -43,9 +103,156 @@ _Supervised by Dr. Christoph Federrath_
 
 ---
 
-# Introduction to Turbulence
+class: section, center, middle
 
-$$ r_s = \eta_s \left( \frac{Et^2}{\rho_0} \right)^\frac{1}{5}$$
+.left[
+# Background Information
+]
+
+.right[
+### Turbulence
+### Supernovae
+### Supernova-driven Turbulence
+]
+
+---
+
+# Turbulence
+<table>
+    <tr>
+        <td>
+            <p>
+            - A turbulent flow is characterised by chaotic changes in the velocity or pressure within a fluid flow 
+            </p>
+            <p>
+            - Shows the presence of vortices</p>
+            <p>
+            - Thought to be linked to the Star Formation Rate (SFR), and the structure of the Interstellar Medium (ISM)
+            </p>
+            
+        </td> 
+        <td> 
+            <figure>
+                <img src="images/turbulence-laser.jpg" height="360px" width="360px"></img>
+                <figcaption>
+                    Image: Fukushima, C. Westerweel, J., JPG 2007, Technical University of Delft
+                </figcaption>
+            </figure>
+        </td>
+    </tr>   
+</table>    
+
+<p class='citation'>Mac Low and Klessen 2004; Krumholz and McKee 2005; McKee and Ostriker 2007; Krumholz et al. 2009; Hennebelle and Chabrier 2011; Federrath and Klessen 2012; Padoan et al. 2014; Salim et al. 2015]   </p>
+---
+
+# Supernovae
+
+- One of the last stages of stellar evolution
+- Multiple kinds:
+    - Type Ia, Ib, Ic, II
+    - Type Ib/c are rarer
+
+
+.left[
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Keplers_supernova.jpg" height="300px" width="300px"></img><figcaption>Image: NASA/ESA/JHU/ R.Sankrit & W.Blair, JPG, 2003</figcaption></figure>
+]
+
+.right[
+- Very high energy (~$10^{51}$ erg)
+- Three Phases:
+    - Free expansion phase,
+    - Sedov(-Taylor) phase,
+    - Snowplow phase.
+]
+
+---
+
+# Stages of Supernova Evolution
+
+- __Free expansion phase__:
+    - Very short lifetime (~300 kyr).
+    - Very high shock-speeds (~$10^4$ km/s).
+    - We don't know much else.
+- __Sedov phase__:
+    - Pressure Driven
+    - Longer Lifetime (~$10^4$ -- $10^5$ years).
+    - Fast shock speeds (~ $10^2$ -- $10^3$ km/s).
+    - Well studied --- has an analytical solution (useful for simulating!)
+- __Snowplow phase__:
+    - Momentum Driven
+    - Final stage of supernova evolution
+    - Lasts until the shock speed reaches the ambient sound speed
+
+
+---
+
+# Supernova-driven Turbulence
+
+- Supernovae are a source of *compressive* turbulence
+    - Compressive turbulence leads to higher density fluctuations in the ISM
+    - Can trigger star formation nearby
+    - Can also disrupt stellar nurseries
+- Supernovae also heat up the surrounding ISM
+    - Temperatures in the centre of a supernova can reach $10^{10}$ K
+    - Most of the energy in a supernova is in thermal energy
+    - This energy is radiated away within 100 kyr. 
+    
+.citation[Krumholz and McKee 2005; Federrath et al. 2008; Federrath et al. 2010, Federrath and Klessen 2012, Kainulainen et al. 2013]
+---
+
+class: section, center, middle
+
+.left[
+# Implementing a Supernova Model
+]
+
+.right[
+### Prior Work
+### Sedov Solution
+### Potential Issues
+]
+---
+
+# Prior Work
+
+#### FLASH
+- An Eulerian, grid-based, hydrodynamics code-base from the University of Chicago
+- Widely used for simulations
+
+#### Sink Particles
+- Due to the resolution limitations of simulations stars cannot be individually resolved
+- Sink Particles (SP) offer a solution to this by providing an analogue to the formation of whole stellar nurseries
+    - In FLASH they can also generate magnetic outflow jets, and accretion discs --- mimicking early stellar development
+    - I further this relationship by using SP as the basis for supernovae. 
+
+.citation[Fryxell et al. 2000; Federrath et al. 2010; Federrath et al. 2014]
+---
+
+# Past Supernova Implementations
+
+- Past implementations have made assumptions about the internal structure of supernovae
+    - Inserted uniform mass and thermal energy throughout the supernova region
+    - Inserting only thermal energy 
+    - Uniform velocities, or linear kinetic energy profiles
+- These assumptions are not always in-line with literature on Supernova structure
+
+### My Model 
+- Based on analytical blast wave solution
+    - Inserts supernovae with consistent physical structure
+- Dynamic, based on ambient conditions surrounding the supernova
+
+.citation[Dubois and Teyssier 2008; Simpson et al. 2015; Bubel 2016]
+---
+
+# The Sedov Solution
+
+---
+.center[
+<video width=480 height=480 controls>
+    <source src="../movies/128_density_proj.mp4" type="video/mp4">
+</video>
+]
+---
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
@@ -57,7 +264,9 @@ $$ r_s = \eta_s \left( \frac{Et^2}{\rho_0} \right)^\frac{1}{5}$$
       // Setup MathJax
       MathJax.Hub.Config({
           tex2jax: {
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          inlineMath: [['$', '$']],
+          processEscapes: true
           }
       });
       MathJax.Hub.Queue(function() {
