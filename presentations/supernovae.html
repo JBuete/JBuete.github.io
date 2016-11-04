@@ -99,14 +99,11 @@ _Supervised by Dr. Christoph Federrath_
 
 # Overview of the Talk
 
-1. Why should we explore supernova-driven turbulence?
-    * Turbulence affects the Star Formation Rate, and evolution of the interstellar medium
-    * Supernovae are thought to be a major source of compressive turbulence 
-2. Implementing a Realistic Supernova
-    * Three phases of supernova evolution: free expansion, Sedov phase, snowplow
-    * Sedov phase based on the Sedov Blast wave solution
-3. Generating Supernova-driven turbulence in simulations
-    * "Supernova-Driven Box"
+### Turbulence and Supernova Structure
+    
+### How to Implement a Realistic Supernova
+    
+### Examining Supernova-driven Turbulence 
     
 
 ---
@@ -120,7 +117,7 @@ class: section, center, middle
 .right[
 ### Turbulence
 ### Supernovae
-### Supernova-driven Turbulence
+### The Sedov Solution
 ]
 
 ---
@@ -165,7 +162,7 @@ class: section, center, middle
 - One of the last stages of stellar evolution
 - Multiple kinds:
     - Type Ia, Ib, Ic, II
-    - Type Ib/c are rarer
+    - Type Ib/c are rarer (I ignore them)
 
 
 .left[
@@ -173,7 +170,7 @@ class: section, center, middle
 ]
 
 .right[
-- Very high energy (~$10^{51}$ erg)
+- Very high energy (Lower bound of ~$10^{51}$ erg)
 - Three Phases:
     - Free expansion phase,
     - Sedov(-Taylor) phase,
@@ -200,18 +197,25 @@ class: section, center, middle
 
 ---
 
+.left[
 # The Sedov Solution
 
 The Sedov solution is an analytical solution for a blast wave in a uniform medium
+] 
+
+.right[
+<img src="images/supernova_diagram.jpg" height="200px"> </img>
+]
+
+.clear[
 - It is *self-similar*. 
     - This means that the solution is scale-invariant and time-invariant
-    - The solution can be expressed in a coordinate system in which it is stationary &mdash; I will use $\eta$ for this system
+    - Can be expressed in a coordinate system in which it is stationary &mdash; I will use $\eta$ for this system
 
 $$
     r = \eta \left(\frac{Et^2}{\rho_0}\right)^\frac{1}{5}
 $$
-- Useful because we can approximate supernovae as a spherically symmetric blast wave
-
+]
 ---
 
 # Assumptions of the Sedov Solution
@@ -260,16 +264,26 @@ class: section, center, middle
 ]
 ---
 
+.left[
 # Prior Work
 
 #### FLASH
 - An Eulerian, grid-based, hydrodynamics code-base from the University of Chicago
-- Widely used for simulations
+$$
+    t_{ff} \propto \frac{1}{\sqrt{\rho}}
+$$
 
+]
+.right[
+<img src='images/sink_particle_amr_close.png' height='330px'> </img>
+]
+
+.clear[
 #### Sink Particles
 - Due to the resolution limitations of simulations stars cannot be individually resolved
 - Sink Particles offer a solution to this by providing an analogue to the formation of whole stellar nurseries
     - In FLASH they can also generate magnetic outflow jets, and accretion discs &mdash; mimicking early stellar development
+]
 
 
 .citation[<a href="http://adsabs.harvard.edu/abs/2000ApJS..131..273F">Fryxell et al. 2000</a>; <a href="http://adsabs.harvard.edu/abs/2010ApJ...713..269F">Federrath et al. 2010</a>; <a href="http://adsabs.harvard.edu/abs/2014ApJ...790..128F">Federrath et al. 2014</a>]
@@ -304,7 +318,7 @@ The internal energy profile can be calculated from the ideal equation of state
 $$
     P = \rho \epsilon (1 - \gamma) \longrightarrow \epsilon  = \frac{P}{\rho (1 - \gamma)}
 $$
-Substituting in the relavant profiles produces:
+Substituting in the relevant profiles produces:
 $$
     \epsilon(\eta) = \frac{2v_s^2}{(\gamma + 1)^2}\left(\frac{\eta}{\eta_s}\right)^2 \frac{B(\eta)}{A(\eta)}
 $$
@@ -325,7 +339,7 @@ $$
 
 # Issues 
 
-### Isothermal equation of state
+### Isothermal equation of state $\quad  P \propto \rho$
 
 <img src="images/iso_8cell_01.jpg" height="220"></img>
 <img src="images/iso_8cell_11.jpg" height="220"></img>
@@ -335,17 +349,19 @@ $$
 
 # Issues 
 
-### Isothermal equation of state, smoothed
+### Isothermal equation of state (smoothed)
 
 <img src="images/iso_smoothed_8cell_01.jpg" height="220"></img>
 <img src="images/iso_smoothed_8cell_11.jpg" height="220"></img>
 <img src="images/iso_smoothed_8cell_21.jpg" height="220"></img>
-
+.center[
+<img src="images/smoothing_function.jpg" height="220"></img>
+]
 ---
 
 # Issues 
 
-### Polytropic equation of state, smoothed
+### Polytropic equation of state (smoothed)  $\quad  P\propto \rho^\Gamma$
 
 <img src="images/poly_8cell_01.jpg" height="220"></img>
 <img src="images/poly_8cell_11.jpg" height="220"></img>
@@ -355,11 +371,12 @@ $$
 
 # Issues 
 
-### Ideal equation of state
+### Ideal equation of state $\quad  P = \rho \epsilon (1 - \gamma)$
 
 <img src="images/ideal_8cell_01.jpg" height="220"></img>
 <img src="images/ideal_8cell_06.jpg" height="220"></img>
 <img src="images/ideal_8cell_11.jpg" height="220"></img>
+
 
 ---
 
@@ -447,29 +464,46 @@ class: center
 ]
 .right[
 $$
-    s = \ln\frac{\rho}{\langle \rho\rangle}, \quad  \mathcal{M} = \frac{v}{c_s}
+    s = \ln\frac{\rho}{\langle \rho\rangle}
 $$
 ]
 .clear[
 
 ]
-.left[
-<img src="images/dens_pdf_comp.jpg" height="300px"></img>
-]
-
-.right[
-<img src="images/mach_pdf_comp2.jpg" height="300px"></img>
-]
-.clear[
-* Density PDF indicative of a two phase medium
-* Mach PDF shows the turbulence to be transonic
+.center[
+<img src="images/dens_pdf_comp.jpg" height="450px"></img>
 ]
 
 .citation[
-<a href="http://adsabs.harvard.edu/abs/2007ApJ...665..416K"> Kritsuk et al. 2007</a>;
+<a href="http://adsabs.harvard.edu/abs/1994ApJ...423..681V">Vazquez-Semadeni, E. 1994</a>;
+<a href="http://adsabs.harvard.edu/abs/2007ApJ...665..416K"> Kritsuk et al. 2007</a>; 
+<a href="http://adsabs.harvard.edu/abs/2008ApJ...688L..79F">Federrath et al. 2008</a>; 
+<a href="http://adsabs.harvard.edu/abs/2010ApJ...713..269F">Federrath et al. 2010</a>;
 ]
 ---
 
+.left[
+# Analysis
+]
+.right[
+$$
+    \quad  \mathcal{M} = \frac{v}{c_s}
+$$
+]
+.clear[
+
+]
+.center[
+<img src="images/mach_pdf_comp2.jpg" height="450px"></img>
+]
+
+.citation[
+<a href="http://adsabs.harvard.edu/abs/1994ApJ...423..681V">Vazquez-Semadeni, E. 1994</a>;
+<a href="http://adsabs.harvard.edu/abs/2007ApJ...665..416K"> Kritsuk et al. 2007</a>; 
+<a href="http://adsabs.harvard.edu/abs/2008ApJ...688L..79F">Federrath et al. 2008</a>; 
+<a href="http://adsabs.harvard.edu/abs/2010ApJ...713..269F">Federrath et al. 2010</a>;
+]
+---
 .left[
 ## Power Spectrum Analysis
 ]
@@ -504,14 +538,13 @@ class: center
 
 ---
 
-.center[
-<img src="images/temp_dens_comp_63.jpg" height="280"></img>
-]
-.clear[
-<img src="images/temp_dens_comp_126.jpg" height="280"></img>
-<img src="images/temp_dens_comp_189.jpg" height="280"></img>
-]
+<img src="images/temp_dens_comp_63.jpg" height="500"></img>
+---
 
+<img src="images/temp_dens_comp_126.jpg" height="500"></img>
+---
+
+<img src="images/temp_dens_comp_189.jpg" height="500"></img>
 
 ---
 
